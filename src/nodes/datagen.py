@@ -44,45 +44,17 @@ def generate_logistics_transport_data(
     }
     
     municipalities = {
+        # 10 major agricultural cities
         'Sorriso': {'lat': -12.544722, 'lon': -55.711389, 'state': 'MT'},
         'Lucas do Rio Verde': {'lat': -13.050556, 'lon': -55.911111, 'state': 'MT'},
-        'Campo Novo do Parecis': {'lat': -13.675833, 'lon': -57.888611, 'state': 'MT'},
         'Primavera do Leste': {'lat': -15.559167, 'lon': -54.2975, 'state': 'MT'},
-        'Sapezal': {'lat': -13.545833, 'lon': -58.795833, 'state': 'MT'},
-        'Diamantino': {'lat': -14.408333, 'lon': -56.445833, 'state': 'MT'},
-        'Nova Mutum': {'lat': -13.831111, 'lon': -56.081667, 'state': 'MT'},
         'Rondonópolis': {'lat': -16.470833, 'lon': -54.635833, 'state': 'MT'},
-        'Sinop': {'lat': -11.864722, 'lon': -55.502778, 'state': 'MT'},
-        'Nova Ubiratã': {'lat': -13.018889, 'lon': -55.246111, 'state': 'MT'},
-        'Querência': {'lat': -12.620833, 'lon': -52.195833, 'state': 'MT'},
-        'Campo Verde': {'lat': -15.545833, 'lon': -55.167222, 'state': 'MT'},
         'Rio Verde': {'lat': -17.798056, 'lon': -50.930556, 'state': 'GO'},
-        'Jataí': {'lat': -17.881389, 'lon': -51.714444, 'state': 'GO'},
-        'Mineiros': {'lat': -17.570278, 'lon': -52.550833, 'state': 'GO'},
-        'Chapadão do Céu': {'lat': -18.410556, 'lon': -52.628611, 'state': 'GO'},
-        'Cristalina': {'lat': -16.766667, 'lon': -47.615833, 'state': 'GO'},
-        'Maracaju': {'lat': -21.613056, 'lon': -55.168611, 'state': 'MS'},
         'Dourados': {'lat': -22.221111, 'lon': -54.805556, 'state': 'MS'},
-        'São Gabriel do Oeste': {'lat': -19.394167, 'lon': -54.563889, 'state': 'MS'},
-        'Sidrolândia': {'lat': -20.935833, 'lon': -54.960556, 'state': 'MS'},
-        'Chapadão do Sul': {'lat': -18.790833, 'lon': -52.620833, 'state': 'MS'},
         'São Desidério': {'lat': -12.363056, 'lon': -44.974167, 'state': 'BA'},
-        'Luís Eduardo Magalhães': {'lat': -12.096389, 'lon': -45.785556, 'state': 'BA'},
-        'Barreiras': {'lat': -12.153056, 'lon': -44.990556, 'state': 'BA'},
-        'Formosa do Rio Preto': {'lat': -11.048611, 'lon': -45.195833, 'state': 'BA'},
         'Cascavel': {'lat': -24.955556, 'lon': -53.455556, 'state': 'PR'},
-        'Toledo': {'lat': -24.713889, 'lon': -53.742778, 'state': 'PR'},
-        'Ponta Grossa': {'lat': -25.095833, 'lon': -50.161667, 'state': 'PR'},
-        'Guarapuava': {'lat': -25.395833, 'lon': -51.458889, 'state': 'PR'},
         'Cruz Alta': {'lat': -28.638611, 'lon': -53.606389, 'state': 'RS'},
-        'Tupanciretã': {'lat': -29.080556, 'lon': -53.835833, 'state': 'RS'},
-        'Palmeira das Missões': {'lat': -27.898611, 'lon': -53.310833, 'state': 'RS'},
-        'Balsas': {'lat': -7.532500, 'lon': -46.035556, 'state': 'MA'},
-        'Tasso Fragoso': {'lat': -8.524167, 'lon': -46.207222, 'state': 'MA'},
-        'Uruçuí': {'lat': -7.134167, 'lon': -44.549722, 'state': 'PI'},
-        'Bom Jesus': {'lat': -9.074722, 'lon': -44.360833, 'state': 'PI'},
-        'Pedro Afonso': {'lat': -8.969167, 'lon': -48.174167, 'state': 'TO'},
-        'Campos Lindos': {'lat': -7.988611, 'lon': -46.864722, 'state': 'TO'}
+        'Balsas': {'lat': -7.532500, 'lon': -46.035556, 'state': 'MA'}
     }
     
     commodities = {
@@ -146,6 +118,9 @@ def generate_logistics_transport_data(
         elif origin_state in ['PR', 'RS']:
             commodity = random.choices(['Soy', 'Corn', 'Wheat'], 
                                      weights=[40, 40, 20])[0]
+        elif origin_state == 'SP':
+            commodity = random.choices(['Soy', 'Corn', 'Sugar', 'Coffee'], 
+                                     weights=[30, 30, 25, 15])[0]
         else:
             commodity = random.choice(['Soy', 'Corn'])
         
@@ -216,7 +191,6 @@ def generate_logistics_transport_data(
             'commodity_reference_price': round(commodity_price, 2),
             'month': operation_month,
             'year': operation_date.year,
-            'seasonality_multiplier': round(seasonality_mult, 3),
             'route': f"{municipality}_{municipalities[municipality]['state']}-{port}_{ports[port]['state']}"
         })
     

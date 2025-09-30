@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "dalex>=1.7.2",
+    "loguru>=0.7.3",
     "matplotlib>=3.10.6",
     "metaflow>=2.18.9",
     "mlforecast>=1.0.2",
