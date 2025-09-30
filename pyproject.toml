@@ -1,0 +1,15 @@
+[project]
+name = "agri-curve"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dalex>=1.7.2",
+    "matplotlib>=3.10.6",
+    "metaflow>=2.18.9",
+    "mlforecast>=1.0.2",
+    "pandas>=2.3.3",
+    "pydantic-settings>=2.11.0",
+    "scikit-learn>=1.7.2",
+]
