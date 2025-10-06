@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agri-curve-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agri-curve
+  template:
+    metadata:
+      labels:
+        app: agri-curve
+    spec:
+      containers:
+      - name: agri-curve
+        image: nsboan/agri-curve:v1
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: agri-curve-service
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: agri-curve
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
