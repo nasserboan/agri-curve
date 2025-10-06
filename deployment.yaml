@@ -1,33 +1,37 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: CronJob
 metadata:
-  name: agri-curve-deployment
+  name: agri-curve-cronjob
   namespace: default
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: agri-curve
-  template:
-    metadata:
-      labels:
-        app: agri-curve
+  schedule: "0 12 * * *"
+  timeZone: "America/Sao_Paulo"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
     spec:
-      containers:
-      - name: agri-curve
-        image: nsboan/agri-curve:v1
-        ports:
-        - containerPort: 8080
-        env:
-        - name: USERNAME
-          value: nsboan
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
+      parallelism: 3
+      completions: 3
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: agri-curve
+            image: nsboan/agri-curve:v1
+            env:
+            - name: USERNAME
+              value: "nsboan"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            resources:
+              requests:
+                memory: "2Gi"
+                cpu: "1000m"
+              limits:
+                memory: "2Gi"
+                cpu: "2000m"
 ---
 apiVersion: v1
 kind: Service
