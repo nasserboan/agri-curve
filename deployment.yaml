@@ -18,6 +18,9 @@ spec:
         image: nsboan/agri-curve:v1
         ports:
         - containerPort: 8080
+        env:
+        - name: USERNAME
+          value: nsboan
         resources:
           requests:
             memory: "256Mi"
