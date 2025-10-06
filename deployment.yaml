@@ -13,6 +13,7 @@ spec:
       labels:
         app: agri-curve
     spec:
+      restartPolicy: Never
       containers:
       - name: agri-curve
         image: nsboan/agri-curve:v1
