@@ -16,5 +16,7 @@ class PreprocessConfig(BaseSettings):
     filter_end_date: str = '2023-12-31'
     
     
+import os
 
-DATA_GEN_CONFIG = DataGenConfig()
+output_dir = os.getenv('OUTPUT_DIR', 'output')
+DATA_GEN_CONFIG = DataGenConfig(data_dir=output_dir)

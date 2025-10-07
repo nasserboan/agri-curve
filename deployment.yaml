@@ -17,7 +17,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: agri-curve
-            image: nsboan/agri-curve:v1
+            image: nsboan/agri-curve:v2
             env:
             - name: USERNAME
               value: "nsboan"
@@ -25,6 +25,8 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+            - name: OUTPUT_DIR
+              value: "/output"
             resources:
               requests:
                 memory: "2Gi"
@@ -32,6 +34,11 @@ spec:
               limits:
                 memory: "2Gi"
                 cpu: "2000m"
+            volumes:
+            - name: output-volume
+              hostPath:
+                path: /mnt/agri-data
+                type: Directory
 ---
 apiVersion: v1
 kind: Service

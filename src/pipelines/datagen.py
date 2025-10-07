@@ -1,4 +1,4 @@
-from metaflow import FlowSpec, step, Parameter
+from metaflow import FlowSpec, step, Parameter, parallel
 from config.config import DATA_GEN_CONFIG
 from src.nodes.datagen import generate_logistics_transport_data
 
