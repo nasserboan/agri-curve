@@ -17,7 +17,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: agri-curve
-            image: nsboan/agri-curve:v2
+            image: nsboan/agri-curve:v3
             env:
             - name: USERNAME
               value: "nsboan"
