@@ -37,7 +37,12 @@ class DataGenFlow(FlowSpec):
 
     @step
     def start(self):
+        import os
+        print(f"OUTPUT_DIR env var: {os.getenv('OUTPUT_DIR')}")
+        print(f"data_dir parameter: {self.data_dir}")
+        print(f"Absolute path: {os.path.abspath(self.data_dir)}")
         self.next(self.generate_data)
+
 
     @step
     def generate_data(self):
