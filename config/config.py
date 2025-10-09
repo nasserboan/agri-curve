@@ -3,8 +3,10 @@ from pydantic_settings import BaseSettings
 class DataGenConfig(BaseSettings):
     num_operations: int = 500_000
     seed: int = 424242
-    data_dir: str = 'data/raw'
-    output_filename: str = 'logistics_transport_data.csv'
+    output_dir: str = 'data/raw'
+    file_name: str = 'logistics_transport_data.csv'
+    base_date: str = '2023-01-01'
+    range_days: int = 720
 
 class PreprocessConfig(BaseSettings):
     input_filename: str = 'logistics_transport_data.csv'
@@ -15,8 +17,5 @@ class PreprocessConfig(BaseSettings):
     filter_start_date: str = '2023-01-01'
     filter_end_date: str = '2023-12-31'
     
-    
-import os
 
-output_dir = os.getenv('OUTPUT_DIR', 'output')
-DATA_GEN_CONFIG = DataGenConfig(data_dir=output_dir)
+DATA_GEN_CONFIG = DataGenConfig()

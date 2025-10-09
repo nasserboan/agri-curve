@@ -1,19 +1,12 @@
 from metaflow import FlowSpec, step, Parameter, parallel
 from config.config import DATA_GEN_CONFIG
-from src.nodes.datagen import generate_logistics_transport_data
+from src.nodes.datagen import DataGenerator
+from loguru import logger
+import os
 
 
 class DataGenFlow(FlowSpec):
-    """
-    Data Generation Pipeline
-    
-    Generates synthetic logistics transport data for model training.
-    
-    Usage:
-        python -m src.pipelines.datagen run
-        python -m src.pipelines.datagen run --num_operations 100000 --seed 12345
-    """
-    
+
     num_operations = Parameter(
         'num_operations',
         default=DATA_GEN_CONFIG.num_operations,
@@ -28,36 +21,52 @@ class DataGenFlow(FlowSpec):
         help='Random seed for reproducibility'
     )
     
-    data_dir = Parameter(
-        'data_dir',
-        default=DATA_GEN_CONFIG.data_dir,
+    output_dir = Parameter(
+        'output_dir',
+        default=DATA_GEN_CONFIG.output_dir,
         type=str,
         help='Output directory for generated data'
     )
 
+    file_name = Parameter(
+        'file_name',
+        default=DATA_GEN_CONFIG.file_name,
+        type=str,
+        help='Name for the output file'
+    )
+
+    base_date = Parameter(
+        'base_date',
+        default=DATA_GEN_CONFIG.base_date,
+        type=str,
+        help='Base date for the operation date generation'
+    )
+
+    range_days = Parameter(
+        'range_days',
+        default=DATA_GEN_CONFIG.range_days,
+        type=int,
+        help='Number of days for the operation dates'
+    )
+
     @step
     def start(self):
-        import os
-        print(f"OUTPUT_DIR env var: {os.getenv('OUTPUT_DIR')}")
-        print(f"data_dir parameter: {self.data_dir}")
-        print(f"Absolute path: {os.path.abspath(self.data_dir)}")
+        self.generator_class = DataGenerator(
+            num_operations=self.num_operations,
+            seed=self.seed,
+            output_dir=self.output_dir,
+            file_name=self.file_name,
+            base_date=self.base_date,
+            range_days=self.range_days
+        )
+        logger.info(f"Absolute path: {os.path.abspath(self.output_dir)}")
         self.next(self.generate_data)
-
 
     @step
     def generate_data(self):
-        self.data = generate_logistics_transport_data(
-            num_operations=self.num_operations,
-            seed=self.seed,
-            data_dir=self.data_dir
-        )
-        
+        self.data = self.generator_class.generate()
         self.next(self.end)
 
     @step
     def end(self):
         pass
-
-
-if __name__ == "__main__":
-    DataGenFlow()

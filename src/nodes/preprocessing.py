@@ -62,8 +62,6 @@ class DateFilter(BaseEstimator, TransformerMixin):
 
 
 
-
-
 def split_data(df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
     pass
 
