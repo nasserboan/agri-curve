@@ -184,6 +184,7 @@ class DataGenerator:
 
         data = []
 
+        logger.info(f"Generating {self.num_operations} operations")
         for i in range(self.num_operations):
             municipality, origin_state, commodity, lat1, lon1 = self.generate_origin_data()
             port, lat2, lon2 = self.generate_port_data()

@@ -64,6 +64,9 @@ class DataGenFlow(FlowSpec):
 
     @step
     def generate_data(self):
+        """
+        Generate the data
+        """
         self.data = self.generator_class.generate()
         self.next(self.end)
 
